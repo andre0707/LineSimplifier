@@ -2,7 +2,9 @@
 
 LineSimplifier is a small Swift Package to simplify lines.
 A line is connecting multiple points and does not need to be straight.
-*Limitations:* This package only works with 2 dimensional points.
+In this package a line could also be called path or route.
+
+**Limitations:** This package only works with 2 dimensional points.
 
 Sometimes you have a lot of points describing the line, but they are not all needed, because a rough course of the line is good enough.
 Using a lot of points in a line requires a lot of resources which is not always needed.
@@ -34,6 +36,7 @@ LineSimplifier is based on the [Ramer–Douglas–Peucker algorithm](https://en.
 LineSimplifier comes with the `Point2DRepresentable` protocol. Just conform your type to this protocol to use the simplification algorithm.
 After conforming to the protocol, just use the `LineSimplifier.simplify` function. Use the `tolerance` prameter to control the degree of simplification.
 Use the `useHighestQuality` parameter to get the best quality. However, better quality requires more time to calculate the simplification.
+If `useHighestQuality` is used, only the *Ramer–Douglas–Peucker algorithm* will be used. If `useHighestQuality` is set to false, a pre filtering with a radial distance is used to save some steps in *Ramer–Douglas–Peucker algorithm*.
 
 
 LineSimplifier adds the `Point2DRepresentable` conformance to `CLLocationCoordinate2D` and `CGPoint` out of the box.
@@ -48,7 +51,20 @@ import CoreLocation
 import LineSimplifier
 
 let points: [CLLocationCoordinate2D] = ...
-let result = LineSimplifier.simplify(points: points, withTolerance: 0.3)
+let result = LineSimplifier.simplify(points: points, withTolerance: 0.003)
+let result2 = LineSimplifier.simplify(points: points, withTolerance: 0.003, useHighestQuality: true)
+```
+
+
+With the `Array` extension you can also use it just like this:
+
+```swift
+import CoreLocation
+import LineSimplifier
+
+let points: [CLLocationCoordinate2D] = ...
+let result = points.simplify(withTolerance: 0.003)
+let result2 = points.simplify(withTolerance: 0.003, useHighestQuality: true)
 ```
 
 

@@ -23,7 +23,7 @@ public enum LineSimplifier {
         guard points.count > 2 else { return points }
         
         let sqTolerance = tolerance * tolerance
-        var result = useHighestQuality ? points : simplifyRadialDistance(points: points, withTolerance: sqTolerance)
+        var result = useHighestQuality ? points : simplifyRadialDistance(points: points, withSquaredTolerance: sqTolerance)
         result = simplifyDouglasPeucker(points: result, with: sqTolerance)
         
         return result
@@ -32,7 +32,7 @@ public enum LineSimplifier {
     
     
     /// A simple radial distance
-    private static func simplifyRadialDistance<T: Point2DRepresentable>(points: [T], withTolerance tolerance: T.T) -> [T] {
+    private static func simplifyRadialDistance<T: Point2DRepresentable>(points: [T], withSquaredTolerance squaredTolerance: T.T) -> [T] {
         guard points.count > 2 else { return points }
         
         var previousPoint = points[0]
@@ -41,7 +41,7 @@ public enum LineSimplifier {
         
         for i in 1 ..< points.count {
             currentPoint = points[i]
-            if currentPoint.sqDistance(from: previousPoint) > tolerance {
+            if currentPoint.sqDistance(from: previousPoint) > squaredTolerance {
                 newPoints.append(currentPoint)
                 previousPoint = currentPoint
             }
