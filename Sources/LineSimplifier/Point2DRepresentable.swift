@@ -20,7 +20,7 @@ public protocol Point2DRepresentable {
     /// The squared distance from self to `otherPoint`
     func sqDistance(from otherPoint: Self) -> T
     /// The squared distance from self to the segment going from `p1` to `p2`
-    func sqdistanceToSegment(reachingFrom p1: Self, to p2: Self) -> T
+    func sqDistanceToSegment(reachingFrom p1: Self, to p2: Self) -> T
     
     /// Equals function which compares self to `otherPoint`
     func equals(to otherPoint: Self) -> Bool
@@ -44,7 +44,7 @@ public extension Point2DRepresentable {
     ///   - p1: Start point of the segment
     ///   - p2: End point of the segment
     /// - Returns: The squared distance from self to the segment
-    func sqdistanceToSegment(reachingFrom p1: Self, to p2: Self) -> T {
+    func sqDistanceToSegment(reachingFrom p1: Self, to p2: Self) -> T {
         var dx = p2.x - p1.x
         var dy = p2.y - p1.y
         

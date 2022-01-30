@@ -16,7 +16,7 @@ public extension Array where Element: Point2DRepresentable {
     ///   - tolerance: The tolerance to use
     ///   - useHighestQuality: Indicator, if the highest quality for the calculations should be used. If yes, it takes quite some time extra.
     /// - Returns: The resulting points which build the simplified line
-    func simplify(withTolerance tolerance: Element.T?, useHighestQuality: Bool = false) -> Self {
+    func simplify(withTolerance tolerance: Element.T, useHighestQuality: Bool = false) -> Self {
         LineSimplifier.simplify(points: self, withTolerance: tolerance, useHighestQuality: useHighestQuality)
     }
 }

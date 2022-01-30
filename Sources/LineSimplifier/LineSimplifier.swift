@@ -18,11 +18,11 @@ public enum LineSimplifier {
     ///   - tolerance: The tolerance to use
     ///   - useHighestQuality: Indicator, if the highest quality for the calculations should be used. If yes, it takes quite some time extra.
     /// - Returns: The resulting points which build the simplified line
-    public static func simplify<T: Point2DRepresentable>(points: [T], withTolerance tolerance: T.T?, useHighestQuality: Bool = false) -> [T] {
+    public static func simplify<T: Point2DRepresentable>(points: [T], withTolerance tolerance: T.T, useHighestQuality: Bool = false) -> [T] {
         /// There is nothing to simplify if we do not at least have 3 points
         guard points.count > 2 else { return points }
         
-        let sqTolerance = tolerance != nil ? (tolerance! * tolerance!) : T.T(1)
+        let sqTolerance = tolerance * tolerance
         var result = useHighestQuality ? points : simplifyRadialDistance(points: points, withTolerance: sqTolerance)
         result = simplifyDouglasPeucker(points: result, with: sqTolerance)
         
@@ -66,7 +66,7 @@ public enum LineSimplifier {
             var index = 0
             
             for currentIndex in first+1..<last {
-                let sqDistance = points[currentIndex].sqdistanceToSegment(reachingFrom: points[first], to: points[last])
+                let sqDistance = points[currentIndex].sqDistanceToSegment(reachingFrom: points[first], to: points[last])
                 if sqDistance > maxSqDistance {
                     maxSqDistance = sqDistance
                     index = currentIndex
@@ -85,9 +85,9 @@ public enum LineSimplifier {
         }
         
         
-        let last = points.count - 1
+        let indexLastPoint = points.count - 1
         var simplied = [points.first!]
-        simplifyDPStep(points: points, first: 0, last: last, sqTolerance: sqTolerance, simplified: &simplied)
+        simplifyDPStep(points: points, first: 0, last: indexLastPoint, sqTolerance: sqTolerance, simplified: &simplied)
         simplied.append(points.last!)
         
         return simplied

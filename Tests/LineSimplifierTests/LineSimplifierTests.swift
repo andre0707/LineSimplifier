@@ -29,7 +29,7 @@ final class LineSimplifierTests: XCTestCase {
         XCTAssertEqual(points.simplify(withTolerance: 0.0001).count, 8)
         XCTAssertEqual(points.simplify(withTolerance: 0.0001, useHighestQuality: true).count, 8)
         
-        XCTAssertEqual(points.simplify(withTolerance: nil, useHighestQuality: true).count, 2)
+        XCTAssertEqual(points.simplify(withTolerance: 1, useHighestQuality: true).count, 2)
     }
     
     
